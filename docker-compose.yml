@@ -2,11 +2,31 @@ version: '3'
 services:
   app:
     container_name: flask
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile_app
     environment:
       FLASK_APP: src/app.py
       FLASK_DEBUG: 1
+      DB_USER: root
+      DB_PASSWORD: pass
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: flask_development
     ports:
-      - '5000:5000'
+      - '15000:5000'
     volumes:
       - .:/app
+    links:
+      - db
+  db:
+    container_name: flask_mysql
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: flask_development
+      MYSQL_ROOT_PASSWORD: 'pass'
+      TZ: "Asia/Tokyo"
+    ports:
+      - '15001:3306'
+    volumes:
+      - ./scripts/docker/mysql/conf.d:/etc/mysql/conf.d
