@@ -2,13 +2,12 @@
 """FlaskのConfigを提供する"""
 import os
 
-class DevelopmentConfig:
+class BaseConfig:
 
     # Flask
     DEBUG = True
 
     # SQLAlchemy
-    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}/{db_name}?charset=utf8'.format(**{
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}/{db_name}'.format(**{
         'user': os.getenv('DB_USER', 'root'),
         'password': os.getenv('DB_PASSWORD', ''),
@@ -20,4 +19,4 @@ class DevelopmentConfig:
     SQLALCHEMY_ECHO = False
 
 
-Config = DevelopmentConfig
+Config = BaseConfig
